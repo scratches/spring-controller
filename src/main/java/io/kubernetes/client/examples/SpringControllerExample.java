@@ -59,7 +59,7 @@ public class SpringControllerExample {
 
 		@Bean
 		public Controller nodePrintingController(SharedInformerFactory sharedInformerFactory,
-																																											NodePrintingReconciler reconciler) {
+				NodePrintingReconciler reconciler) {
 			DefaultControllerBuilder builder = ControllerBuilder.defaultBuilder(sharedInformerFactory);
 			builder = builder.watch((q) -> {
 				return ControllerBuilder.controllerWatchBuilder(V1Node.class, q).build();
@@ -70,17 +70,17 @@ public class SpringControllerExample {
 
 		@Bean
 		public SharedIndexInformer<V1Node> nodeInformer(ApiClient apiClient,
-																																																		SharedInformerFactory sharedInformerFactory) {
+				SharedInformerFactory sharedInformerFactory) {
 			final GenericKubernetesApi<V1Node, V1NodeList> api = new GenericKubernetesApi<>(V1Node.class,
-				V1NodeList.class, "", "v1", "nodes", apiClient);
+					V1NodeList.class, "", "v1", "nodes", apiClient);
 			return sharedInformerFactory.sharedIndexInformerFor(api, V1Node.class, 0);
 		}
 
 		@Bean
 		public SharedIndexInformer<V1Pod> podInformer(ApiClient apiClient,
-																																																SharedInformerFactory sharedInformerFactory) {
+				SharedInformerFactory sharedInformerFactory) {
 			final GenericKubernetesApi<V1Pod, V1PodList> api = new GenericKubernetesApi<>(V1Pod.class, V1PodList.class,
-				"", "v1", "pods", apiClient);
+					"", "v1", "pods", apiClient);
 			return sharedInformerFactory.sharedIndexInformerFor(api, V1Pod.class, 0);
 		}
 
@@ -113,7 +113,7 @@ public class SpringControllerExample {
 		private Lister<V1Pod> podLister;
 
 		public NodePrintingReconciler(SharedInformer<V1Node> nodeInformer, SharedInformer<V1Pod> podInformer,
-																																Lister<V1Node> nodeLister, Lister<V1Pod> podLister) {
+				Lister<V1Node> nodeLister, Lister<V1Pod> podLister) {
 			super();
 			this.nodeInformer = nodeInformer;
 			this.podInformer = podInformer;
@@ -131,7 +131,7 @@ public class SpringControllerExample {
 
 			System.out.println("get all pods in namespace " + namespace);
 			podLister.namespace(namespace).list().stream().map(pod -> pod.getMetadata().getName())
-				.forEach(System.out::println);
+					.forEach(System.out::println);
 
 			System.out.println("triggered reconciling " + node.getMetadata().getName());
 			return new Result(false);
